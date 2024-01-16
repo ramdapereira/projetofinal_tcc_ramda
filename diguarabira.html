@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="image/Map-icon.svg.png" type="image/x-icon"> 
+
+    <title>SIG - GESTÃO DE ÁREAS INDUSTRIAIS</title>    
+
+    <link rel="stylesheet" href="libs/leaflet/leaflet.css">
+    <link rel="stylesheet" href="libs/leaflet-betterscale-master/L.Control.BetterScale.css">
+    <link rel="stylesheet" href="libs/leaflet.zoomhome-master/dist/leaflet.zoomhome.css">
+    <link rel="stylesheet" href="libs/Leaflet.PolylineMeasure-master/Leaflet.PolylineMeasure.css">
+    <link rel="stylesheet" href="libs/leaflet-control-geocoder-master/dist/Control.Geocoder.css">
+    <link rel="stylesheet" href="plugins/Leaflet.Measure-master/src/leaflet.measure.css">
+    <link rel="stylesheet" href="plugins/leaflet-mouseposition/L.Control.MousePosition.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    
+   
+<style>
+    html{height: 100%}
+  body{height: 100%}
+    #map{
+        width: 100%;  
+        height: 85%;
+        border: solid 2px black;
+        /* margin: 0 auto;
+        min-width:600px;
+        max-width:2000px */
+    }
+    /* .map-coordinate{
+    position: absolute;
+    bottom: 0;
+    left: 85%;
+    transform: translateX(-50%);
+    padding: 3px;
+    color: rgb(15, 5, 5);
+    background-color: #f3f5f3;
+    border: 1px solid rgb(209, 208, 218);
+    border-radius: 5%;   
+} */
+
+body {
+      padding: 0;
+      margin: 0;
+    }
+    .info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+    }
+
+    .info h4 {
+      margin: 0 0 5px;
+      color: #777;
+    }
+    .legend {
+      text-align: left;
+      line-height: 18px;
+      color: #555;
+    }
+
+    .legend i {
+      width: 18px;
+      height: 13px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.7;
+      border: 1px solid #000;
+    }
+
+
+</style>
+
+</head>
+<body>    
+    <nav class="navbar navbar-expand-lg" style=" background-color: #4682b4;">
+        <div class="container-fluid">
+            <img src="image/Map-icon.svg.png" alt="Bootstrap" width="80" height="80">
+        </a>
+        <a class="navbar-brand" href="index.html" style = color:#FFFFFF;">SIG - Gestão de Áreas Industriais</strong> </a>           
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html" style = color:#FFFFFF;>Mapa</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style = color:#FFFFFF; aria-expanded="false">
+                  Escolha a Área
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="dicaapora.html">DI Caaporã</a></li>  
+                  <li><a class="dropdown-item" href="diconde.html">DI Conde</a></li>  
+                  <li><a class="dropdown-item" href="dijop.html">DI João Pessoa</a></li>
+                  <li><a class="dropdown-item" href="dimangabeira.html">DI Mangabeira</a></li>                 
+                  <li><a class="dropdown-item" href="disousa.html">DI Sousa</a></li>  
+                  </li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="sobre.html" style = color:#FFFFFF;>Sobre</a>
+            </li>
+              
+            </form>
+          </div>
+        </div>
+      </nav>
+
+    <div id="map">
+        <div class="leaflet-control map-coordinate">
+            <div class="coordinate"></div>
+        </div>
+</div>  
+
+</body>
+</html>
+
+<script src="libs/leaflet/leaflet.js"></script>
+<script src="dados/mangabeira.js"></script>
+<script src="dados/parquecaapora.js"></script>
+<script src="dados/dicaapora.js"></script>
+<script src="dados/diguarabira.js"></script>
+<script src="dados/dijop.js"></script>
+<script src="libs/leaflet.browser.print-master/leaflet.browser.print.min.js"></script>
+<script src="dados/municipiospb.js"></script>
+<script src="libs/leaflet-betterscale-master/L.Control.BetterScale.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="libs/Leaflet.PolylineMeasure-master/Leaflet.PolylineMeasure.js"></script>
+<script src="libs/leaflet-control-geocoder-master/dist/Control.Geocoder.js"></script>
+<script src="libs/leaflet.zoomhome-master/dist/leaflet.zoomhome.min.js"></script>
+<script src="plugins/leaflet-mouseposition/L.Control.MousePosition.js"></script>
+<script src="libs/leaflet-measure-master/leaflet-measure.js"></script>
+<script src="plugins/Leaflet.Measure-master/src/leaflet.measure.js"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+
+<script>
+var map = L.map('map', {zoomControl: false}).setView([-6.879370440834886, -35.47898948192597], 17);
+
+
+var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+  maxZoom: 20,
+  subdomains:['mt0','mt1','mt2','mt3'],
+  attribution: 'Google'
+});
+
+
+ var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3'],
+    attribution: 'Google'
+}).addTo(map);
+
+/*
+Estilo1= {
+
+    onEachFeature: function(feature, layer){
+    layer.bindPopup('<b> Município: </b>' + feature.properties.Nome + ' <br>' )},
+    //fillColor: getMesoColor(feature.properties.meso),
+    weight: 1.5,
+    opacity: 1,
+    color: 'blue',
+    fillOpacity: 0.1
+
+ };            
+
+var pb = L.geoJSON(pb, Estilo1).addTo(map);  
+
+*/
+
+
+      
+/* Estilomanga = {
+onEachFeature: function(feature, layer){
+    layer.bindPopup('<b> Quadra: </b>' + feature.properties.QD_PREF + ' <br>' + '<b> Lote: </b>' + feature.properties.LOTE_PREF + ' <br>' + '<b> Situação: </b>' + feature.properties.SITUACAO + ' <br>' + '<b> Ocupante: </b>' + feature.properties.OCUPANTE)
+}, style: function(feature) {switch (feature.properties.SITUACAO) {
+            case 'OCUPADO': return {color: "red"};
+            case 'DISPONÍVEL':   return {color: "green"};
+            case 'JUDICIALIZ': return {color: "orange"};
+        }}}; */
+//var manga = L.geoJSON(manga).addTo(map);
+
+// controle que mostra informações quando o mouse fica sobre
+const info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+};
+info.update = function (props) {
+    const contents = props ? `<b> Quadra: </b> ${props.Quadra}<br/> <b> Lote: </b> ${props.Lote}<br/> 
+    <b> Área: </b> ${props.AREA_M2} m<sup>2</sup> <br> <b>Situação: </b> ${props.SITUACAO} <b><br> Ocupante: </b> ${props.OCUPANTE}</br>` : 'Passe o mouse sobre a área';
+    this._div.innerHTML = `<h4> DI GUARABIRA</h4>'${contents}`;
+};
+info.addTo(map);
+// get color depending on situação value
+function getColor(d) {
+return d === 'OCUPADO' ? "#FF0000" :
+        d === 'DISPONÍVEL'  ? "#008000" :
+        d === 'JUDICIALIZADO'  ? "#D2691E" :
+                        "#FFD700";
+}
+
+var legend = L.control({position: 'bottomright'});
+    legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend');
+    labels = ['<strong>Situação Ocupacional</strong>'],
+    categories = ['OCUPADO','DISPONÍVEL','JUDICIALIZADO', 'EM ATUALIZAÇÃO'];
+
+    for (var i = 0; i < categories.length; i++) {
+
+            div.innerHTML += 
+            labels.push(
+                '<i class="circle" style="background:' + getColor(categories[i]) + '"></i> ' +
+            (categories[i] ? categories[i] : '+'));
+
+        }
+        div.innerHTML = labels.join('<br>');
+    return div;
+    };
+    legend.addTo(map);
+
+function style(feature) {
+    return {
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7,
+        fillColor: getColor(feature.properties.SITUACAO)
+    };
+}
+
+function highlightFeature(e) {
+    const layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.opera) {
+        layer.bringToFront();
+    }
+
+    info.update(layer.feature.properties);
+}
+
+/* global statesData */
+const lotes = L.geoJson(gba, {
+    style,
+    onEachFeature
+}).addTo(map);
+
+function resetHighlight(e) {
+    lotes.resetStyle(e.target);
+    info.update();
+}
+
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.bindPopup( "<b>FICHA DO IMÓVEL </b> </br> <b>Endereço: </b>" + String(feature.properties.Endereco) + ' <br>' + "<b>Limite Norte: </b>" + String(feature.properties.Norte) + '<br>' + "<b>Limite Sul: </b>" + String(feature.properties.Sul) + '<br>' + "<b>Limite Leste: </b>" + String(feature.properties.Leste) + '<br>' + "<b>Limite Oeste: </b>" + String(feature.properties.Oeste) + '<br>' + "<b>Edificação: </b>" + String(feature.properties.Edificacao) + '<br>' + "<b>Área Edificada: </b>" + String(feature.properties.Area_EDIF) + '<br>' + "<b>CDC Energisa: </b>" + String(feature.properties.Energisa) + '<br>' + "<b>Matrícula CAGEPA: </b>" + String(feature.properties.CAGEPA) + '<br>' + "<b>Inscrição Municipal: </b>" + String(feature.properties.Insc_PREF) + '<br>' + "<b>Localização Cartográfica: </b>" + String(feature.properties.Loc_Cartog) + '<br>' + "<b>Cartório: </b>" + String(feature.properties.CARTORIO) + '<br>' + "<b>Matrícula Cartorária: </b>" + String(feature.properties.MAT_CART) + '<br>');
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+
+/* Estiloparquecaapora = {
+onEachFeature: function(feature, layer){
+    layer.bindPopup('<b> Quadra: </b>' + feature.properties.QD_PREF + ' <br>' + '<b> Lote: </b>' + feature.properties.LOTE_PREF + ' <br>' + '<b> Situação: </b>' + feature.properties.SITUACAO + ' <br>' + '<b> Ocupante: </b>' + feature.properties.OCUPANTE)
+}, style: function(feature) {switch (feature.properties.SITUACAO) {
+            case 'OCUPADO': return {color: "red"};
+            case 'DISPONÍVEL':   return {color: "green"};
+            case 'JUDICIALIZ': return {color: "orange"};
+        }}};
+var parquecaapora = L.geoJSON(parquecaapora, Estiloparquecaapora); */
+
+
+/* Estilodicaapora = {
+onEachFeature: function(feature, layer){
+    layer.bindPopup('<b> Quadra: </b>' + feature.properties.QD_PREF + ' <br>' + '<b> Lote: </b>' + feature.properties.LOTE_PREF + ' <br>' + '<b> Situação: </b>' + feature.properties.SITUACAO + ' <br>' + '<b> Ocupante: </b>' + feature.properties.OCUPANTE)
+}, style: function(feature) {switch (feature.properties.SITUACAO) {
+            case 'OCUPADO': return {color: "red"};
+            case 'DISPONÍVEL': return {color: "green"};
+            case 'JUDICIALIZ': return {color: "orange"};
+        }}};
+var dicaapora = L.geoJSON(dicaapora, Estilodicaapora); */
+
+
+/* Estilodijop = {
+onEachFeature: function(feature, layer){
+    layer.bindPopup('<b> Quadra: </b>' + feature.properties.Quadra + ' <br>' + '<b> Lote: </b>' + feature.properties.Lote + ' <br>' + '<b> Situação: </b>' + feature.properties.SITUACAO + ' <br>' + '<b> Ocupante: </b>' + feature.properties.OCUPANTE)
+}, style: function(feature) {switch (feature.properties.SITUACAO) {
+            case 'OCUPADO': return {color: "red"};
+            case 'DISPONÍVEL': return {color: "green"};
+            case 'JUDICIALIZ': return {color: "orange"};
+        }}};
+var dijop = L.geoJSON(dijop, Estilodijop); */
+
+
+// Exibição de coordenadas no mapa
+// map.on('mousemove', function (e) {
+//     $('.coordinate') .html('Lat: ' + e.latlng.lat.toFixed(6) + 'º' + ' Long: '+ e.latlng.lng.toFixed(6) + 'º')
+// })
+
+L.control.mousePosition({
+    position: 'topleft',
+    emptyString: '',
+    latFirst: true
+}).addTo(map);
+
+
+var baseMaps = {
+    
+    "Google Satellite": googleSat,
+    "Google Streets": googleStreets,
+}
+
+var overviewMaps = {
+   // "Municípios PB": pb,
+    "DI Guarabira": lotes,
+   // "DI João Pessoa": dijop,
+   // "DI Caaporã": dicaapora,
+   // "Parque Caaporã": parquecaapora
+}
+
+L.control.layers(baseMaps, overviewMaps, {position: "topright"}).addTo(map);
+
+var zoomHome = L.Control.zoomHome();
+zoomHome.addTo(map);
+
+var browserControl = L.control.browserPrint({position: "topleft", title: "Escolha Opção:"}).addTo(map);
+
+// Adicionando um geolocalizador de endereços
+L.Control.geocoder({position: "topleft"}).addTo(map);
+
+
+// Adicionando medidas
+L.Measure = {
+    linearMeasurement: "Medidas de distância",
+    areaMeasurement: "Medidas de área",
+    start: "Início",
+    meter: "m",
+    kilometer: "km",
+    squareMeter: "m²",
+    squareKilometers: "km²",
+    };
+
+var measure = L.control.measure({position: "topleft"}).addTo(map);
+
+L.control.betterscale({
+    metric: true,
+    imperial: false,
+    maxWidth: 200
+}).addTo(map);
+
+
+//var scaleBar = L.control.scale({imperial: false, position: "bottomleft"}).addTo(map);
+
+
+
+
+</script>
